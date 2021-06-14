@@ -1,16 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Code Quiz</title>
     <link rel="stylesheet" href="./assets/css/style.css" />
-  </head>
-  <body>
-    <div class="container">
-      
-    </div>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+        <header>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-xs-8""><label>View high score</label></div>
+                    <div class="col-lg-2 col-xs-4""> 
+                        <label>Time remaining:</label>
+                        <h2 id="countdown"></h2>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="container">
+            <div class="row">
+                <div id="firstRow" class="col text-center">
+                    <h2 class="font-weight-bold"> Coding Quiz Challange</h2>
+                    <p class="text-wrap">Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will panelize your score/time by ten seconds!</p>
+                    <button id="startQuizBtn" type="button" class="btn btn-primary">Start Quiz</button>
+                </div>
+            </div>    
+        </section>
     <script src="./assets/js/script.js"></script>
-  </body>
+</body>
+
 </html>
