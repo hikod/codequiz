@@ -66,23 +66,23 @@ startQuizBtn.addEventListener("click", function () {
 });
 
 
-function showAnswer(userAnswer) {
+function showAnswer() {
     var correctAnswer = document.createElement('label');
     var hr = document.createElement('hr');
-    document.getElementById("firstRow").after(correctAnswer);
-    correctAnswer.appendChild(hr);
-    if (checkAnswer(userAnswer)) {
+    // document.getElementById("firstRow").after(correctAnswer);
+    document.getElementById("firstRow").append(hr);
+
+    if (checkAnswer()) {
         correctAnswer.textContent = "Correct"
     } else {
         correctAnswer.textContent = "Wrong";
     }
+    document.getElementById("firstRow").append(correctAnswer);
 }
 
-function checkAnswer(userAnswer) {
+function checkAnswer() {
     var flag = false
-    console.log(quiz[currentQuestion-1]["correct"]);
-    console.log(userAnswer.value);
-    if (quiz[currentQuestion-1]["correct"] === userAnswer) {
+    if (quiz[currentQuestion - 1]["correct"] === userAnswer) {
         flag = true;
     }
     return flag;
@@ -109,10 +109,10 @@ function displayQuestions() {
         var btn = document.getElementById(answer.id);
         btn.addEventListener("click", event => {
             userAnswer = event.target.value;
-            console.log(userAnswer);
-            showAnswer(userAnswer);
+            showAnswer();
             currentQuestion++;
-            clearBox("firstRow");
+            setTimeout(function () { clearBox("firstRow"); }, 2000);
+
         });
     }
 }
