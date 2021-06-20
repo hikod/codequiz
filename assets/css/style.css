@@ -1,0 +1,17 @@
+.block {
+    display: flex;
+    margin: 1.2em auto;
+    background-color: rgb(34, 0, 128);
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    width: 200px;
+    height: auto;
+  }
+
+  .block:hover{
+    background-color:blueviolet; 
+  }
+  #highScore{
+      color: blueviolet;
+  }
