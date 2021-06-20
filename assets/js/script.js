@@ -1,5 +1,31 @@
 var startQuizBtn = document.getElementById("startQuizBtn");
 var timerEl = document.getElementById('countdown');
+var template = document.createElement('div');
+
+// The array of questions for our quiz game.
+var quiz = [
+    {
+        "question": "Q1: Who came up with theory of relativity?",
+        "choices": [
+            "Sir Isaac Newton",
+            "Nicolaus Copernicus",
+            "Albert Einstein",
+            "Ralph Waldo Emmerson"
+        ],
+        "correct": "Albert Einstein"
+    },
+    {
+        "question"		: 	"Q2: Who is on the two dollar bill?",
+        "choices"		: 	[
+                                "Thomas Jefferson",
+                                "Dwight D. Eisenhower",
+                                "Benjamin Franklin",
+                                "Abraham Lincoln"
+                            ],
+        "correct"		: 	"Thomas Jefferson",
+        "explanation"	: 	"The two dollar bill is seldom seen in circulation. As a result, some businesses are confused when presented with the note.",
+    }
+];
 
 // Timer that counts down from 5
 function countdown() {
@@ -29,4 +55,30 @@ function clearBox(elementID) {
 startQuizBtn.addEventListener("click", function () {
     clearBox("firstRow");
     countdown();
+    displayQuestions();
 });
+
+
+
+
+function displayQuestions() {
+    var currentQuestion = 0;
+    var question = document.createElement('p');
+    question.textContent = quiz[currentQuestion]["question"];
+    
+    document.getElementById("firstRow").appendChild(question);
+    //loop through choices, and create radio buttons
+        for(var i=0; i < quiz[currentQuestion]["choices"].length; i++){
+            
+            var answer = document.createElement('button');
+            answer.className = 'block';
+            answer.type = 'button';
+            answer.name = 'quiz';
+            answer.id = 'choice'+ (i+1);
+            answer.value = quiz[currentQuestion]["choices"][i];
+            answer.textContent = quiz[currentQuestion]["choices"][i];
+            document.getElementById("firstRow").appendChild(answer);
+        }
+}
+
+
