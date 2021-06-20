@@ -1,6 +1,8 @@
 var startQuizBtn = document.getElementById("startQuizBtn");
 var timerEl = document.getElementById('countdown');
 var template = document.createElement('div');
+var currentQuestion = 0;
+var userAnswer;
 
 // The array of questions for our quiz game.
 var quiz = [
@@ -15,15 +17,15 @@ var quiz = [
         "correct": "Albert Einstein"
     },
     {
-        "question"		: 	"Q2: Who is on the two dollar bill?",
-        "choices"		: 	[
-                                "Thomas Jefferson",
-                                "Dwight D. Eisenhower",
-                                "Benjamin Franklin",
-                                "Abraham Lincoln"
-                            ],
-        "correct"		: 	"Thomas Jefferson",
-        "explanation"	: 	"The two dollar bill is seldom seen in circulation. As a result, some businesses are confused when presented with the note.",
+        "question": "Q2: Who is on the two dollar bill?",
+        "choices": [
+            "Thomas Jefferson",
+            "Dwight D. Eisenhower",
+            "Benjamin Franklin",
+            "Abraham Lincoln"
+        ],
+        "correct": "Thomas Jefferson",
+        "explanation": "The two dollar bill is seldom seen in circulation. As a result, some businesses are confused when presented with the note.",
     }
 ];
 
@@ -55,30 +57,62 @@ function clearBox(elementID) {
 startQuizBtn.addEventListener("click", function () {
     clearBox("firstRow");
     countdown();
-    displayQuestions();
+    if (currentQuestion < quiz.length - 1) {
+        displayQuestions();
+        currentQuestion++;
+    } else {
+        showFinalResults();
+    }
 });
 
 
-
-
-function displayQuestions() {
-    var currentQuestion = 0;
-    var question = document.createElement('p');
-    question.textContent = quiz[currentQuestion]["question"];
-    
-    document.getElementById("firstRow").appendChild(question);
-    //loop through choices, and create radio buttons
-        for(var i=0; i < quiz[currentQuestion]["choices"].length; i++){
-            
-            var answer = document.createElement('button');
-            answer.className = 'block';
-            answer.type = 'button';
-            answer.name = 'quiz';
-            answer.id = 'choice'+ (i+1);
-            answer.value = quiz[currentQuestion]["choices"][i];
-            answer.textContent = quiz[currentQuestion]["choices"][i];
-            document.getElementById("firstRow").appendChild(answer);
-        }
+function showAnswer(userAnswer) {
+    var correctAnswer = document.createElement('label');
+    var hr = document.createElement('hr');
+    document.getElementById("firstRow").after(correctAnswer);
+    correctAnswer.appendChild(hr);
+    if (checkAnswer(userAnswer)) {
+        correctAnswer.textContent = "Correct"
+    } else {
+        correctAnswer.textContent = "Wrong";
+    }
 }
 
+function checkAnswer(userAnswer) {
+    var flag = false
+    console.log(quiz[currentQuestion-1]["correct"]);
+    console.log(userAnswer.value);
+    if (quiz[currentQuestion-1]["correct"] === userAnswer) {
+        flag = true;
+    }
+    return flag;
+}
+function displayQuestions() {
+    var question = document.createElement('p');
+    question.id = "question";
+    question.textContent = quiz[currentQuestion]["question"];
 
+    document.getElementById("firstRow").appendChild(question);
+
+    //loop through choices, and create buttons for the answers
+    for (var i = 0; i < quiz[currentQuestion]["choices"].length; i++) {
+
+        var answer = document.createElement('button');
+        answer.className = 'block';
+        answer.type = 'button';
+        answer.name = 'quiz';
+        answer.id = 'choice' + (i + 1);
+        answer.value = quiz[currentQuestion]["choices"][i];
+        answer.textContent = quiz[currentQuestion]["choices"][i];
+        document.getElementById("firstRow").appendChild(answer);
+
+        var btn = document.getElementById(answer.id);
+        btn.addEventListener("click", event => {
+            userAnswer = event.target.value;
+            console.log(userAnswer);
+            showAnswer(userAnswer);
+            currentQuestion++;
+            clearBox("firstRow");
+        });
+    }
+}
