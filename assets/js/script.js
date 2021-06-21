@@ -7,29 +7,58 @@ var userAnswer;
 // The array of questions for our quiz game.
 var quiz = [
     {
-        "question": "Q1: Who came up with theory of relativity?",
+        "question": "Commonly used data type DO NOT include",
         "choices": [
-            "Sir Isaac Newton",
-            "Nicolaus Copernicus",
-            "Albert Einstein",
-            "Ralph Waldo Emmerson"
+            "Strings",
+            "Booleans",
+            "Alerts",
+            "Numbers"
         ],
-        "correct": "Albert Einstein"
+        "correct": "Alerts"
     },
     {
-        "question": "Q2: Who is on the two dollar bill?",
+        "question": "A very useful tool used during development and debugging for printing content to the debugger is:",
         "choices": [
-            "Thomas Jefferson",
-            "Dwight D. Eisenhower",
-            "Benjamin Franklin",
-            "Abraham Lincoln"
+            "JavaScript",
+            "terminal/bash",
+            "for loops",
+            "console.log"
         ],
-        "correct": "Thomas Jefferson",
-        "explanation": "The two dollar bill is seldom seen in circulation. As a result, some businesses are confused when presented with the note.",
+        "correct": "console.log"
+    },
+    {
+        "question": "Arrays in JavaScript can be used to store _______.",
+        "choices": [
+            "numbers and strings",
+            "other arrays",
+            "booleans",
+            "all of the above"
+        ],
+        "correct": "all of the above"
+    },
+    {
+        "question": "The condition in an if/ else statement is enclosed with _______.",
+        "choices": [
+            "quotes",
+            "curly brackets",
+            "parenthesis",
+            "square brackets"
+        ],
+        "correct": "curly brackets"
+    },
+    {
+        "question": "String values must be enclosed within _______ when being assigned to variables.",
+        "choices": [
+            "commas",
+            "curly brackets",
+            "quotes",
+            "paranthesis"
+        ],
+        "correct": "quotes"
     }
 ];
 
-// Timer that counts down from 5
+// Timer that counts down from 75
 function countdown() {
     var timeLeft = 75;
 
@@ -57,19 +86,13 @@ function clearBox(elementID) {
 startQuizBtn.addEventListener("click", function () {
     clearBox("firstRow");
     countdown();
-    if (currentQuestion < quiz.length - 1) {
-        displayQuestions();
-        currentQuestion++;
-    } else {
-        showFinalResults();
-    }
+    displayQuestions();
 });
 
 
 function showAnswer() {
     var correctAnswer = document.createElement('label');
     var hr = document.createElement('hr');
-    // document.getElementById("firstRow").after(correctAnswer);
     document.getElementById("firstRow").append(hr);
 
     if (checkAnswer()) {
@@ -82,7 +105,7 @@ function showAnswer() {
 
 function checkAnswer() {
     var flag = false
-    if (quiz[currentQuestion - 1]["correct"] === userAnswer) {
+    if (quiz[currentQuestion]["correct"] === userAnswer) {
         flag = true;
     }
     return flag;
@@ -111,7 +134,13 @@ function displayQuestions() {
             userAnswer = event.target.value;
             showAnswer();
             currentQuestion++;
-            setTimeout(function () { clearBox("firstRow"); }, 2000);
+            setTimeout(() => clearBox("firstRow"), 2000);
+            if(currentQuestion < quiz.length ){
+                setTimeout(() =>displayQuestions(),2000);
+            } else {
+                console.log("I am at ELSE statement");
+        
+            }
 
         });
     }
