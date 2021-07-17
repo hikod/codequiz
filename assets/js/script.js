@@ -2,7 +2,6 @@ var startQuizBtn = document.getElementById("startQuizBtn");
 var timerEl = document.getElementById('countdown');
 var template = document.createElement('div');
 var currentQuestion = 0;
-var userAnswer;
 
 // The array of questions for our quiz game.
 var quiz = [
@@ -83,11 +82,13 @@ function clearBox(elementID) {
     document.getElementById(elementID).innerHTML = "";
 }
 
-startQuizBtn.addEventListener("click", function () {
-    clearBox("firstRow");
+function startQuiz(value) {
+    // clearBox("firstRow");
     countdown();
-    displayQuestions();
-});
+    displayQuestions(value);
+    // clearBox("firstRow");
+    
+}
 
 
 function showAnswer() {
@@ -105,18 +106,26 @@ function showAnswer() {
 
 function checkAnswer() {
     var flag = false
-    if (quiz[currentQuestion]["correct"] === userAnswer) {
+    console.log("Current question correct answer: "+ quiz[currentQuestion]["correct"])
+    if (quiz[currentQuestion]["correct"] === window.localStorage.getItem("answer")) {
         flag = true;
     }
     return flag;
 }
-function displayQuestions() {
-    var question = document.createElement('p');
+
+
+
+function displayQuestions(value) {
+    clearBox("firstRow");
+    var clicked = false;
+    console.log("the value of the clicked button:" + value)
+    window.localStorage.setItem('answer',value);
+    var previousQuestionAnswer = checkAnswer();
+     var question = document.createElement('p');
     question.id = "question";
     question.textContent = quiz[currentQuestion]["question"];
 
     document.getElementById("firstRow").appendChild(question);
-
     //loop through choices, and create buttons for the answers
     for (var i = 0; i < quiz[currentQuestion]["choices"].length; i++) {
 
@@ -127,21 +136,14 @@ function displayQuestions() {
         answer.id = 'choice' + (i + 1);
         answer.value = quiz[currentQuestion]["choices"][i];
         answer.textContent = quiz[currentQuestion]["choices"][i];
+        answer.setAttribute('onclick','displayQuestions(this.value)');
         document.getElementById("firstRow").appendChild(answer);
 
         var btn = document.getElementById(answer.id);
-        btn.addEventListener("click", event => {
-            userAnswer = event.target.value;
-            showAnswer();
-            currentQuestion++;
-            setTimeout(() => clearBox("firstRow"), 2000);
-            if(currentQuestion < quiz.length ){
-                setTimeout(() =>displayQuestions(),2000);
-            } else {
-                console.log("I am at ELSE statement");
-        
-            }
-
-        });
     }
+    clicked=true;
+     if(clicked){
+        currentQuestion++;
+     }
+      clicked=false;
 }
