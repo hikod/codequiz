@@ -87,14 +87,19 @@ function startQuiz(value) {
     countdown();
     displayQuestions(value);
     // clearBox("firstRow");
-    
+
 }
 
 
 function showAnswer() {
     var correctAnswer = document.createElement('label');
     var hr = document.createElement('hr');
+    hr.style.height ="2px";
+    hr.style.marginBottom ="5px";
+    hr.style.top="5px";
+    hr.style.background= "black";
     document.getElementById("firstRow").append(hr);
+
 
     if (checkAnswer()) {
         correctAnswer.textContent = "Correct"
@@ -106,7 +111,7 @@ function showAnswer() {
 
 function checkAnswer() {
     var flag = false
-    console.log("Current question correct answer: "+ quiz[currentQuestion]["correct"])
+    console.log("Current question correct answer: " + quiz[currentQuestion]["correct"])
     if (quiz[currentQuestion]["correct"] === window.localStorage.getItem("answer")) {
         flag = true;
     }
@@ -119,9 +124,9 @@ function displayQuestions(value) {
     clearBox("firstRow");
     var clicked = false;
     console.log("the value of the clicked button:" + value)
-    window.localStorage.setItem('answer',value);
+    window.localStorage.setItem('answer', value);
     var previousQuestionAnswer = checkAnswer();
-     var question = document.createElement('p');
+    var question = document.createElement('p');
     question.id = "question";
     question.textContent = quiz[currentQuestion]["question"];
 
@@ -136,14 +141,17 @@ function displayQuestions(value) {
         answer.id = 'choice' + (i + 1);
         answer.value = quiz[currentQuestion]["choices"][i];
         answer.textContent = quiz[currentQuestion]["choices"][i];
-        answer.setAttribute('onclick','displayQuestions(this.value)');
+        answer.setAttribute('onclick', 'displayQuestions(this.value)');
         document.getElementById("firstRow").appendChild(answer);
 
         var btn = document.getElementById(answer.id);
     }
-    clicked=true;
-     if(clicked){
+    clicked = true;
+    if (clicked) {
         currentQuestion++;
-     }
-      clicked=false;
+        if (window.localStorage.getItem("answer")!=='startQuiz'){
+            showAnswer();
+        }
+    }
+    clicked = false;
 }
