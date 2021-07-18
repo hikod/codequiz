@@ -83,11 +83,8 @@ function clearBox(elementID) {
 }
 
 function startQuiz(value) {
-    // clearBox("firstRow");
     countdown();
     displayQuestions(value);
-    // clearBox("firstRow");
-
 }
 
 
@@ -100,7 +97,6 @@ function showAnswer() {
     hr.style.background= "black";
     document.getElementById("firstRow").append(hr);
 
-
     if (checkAnswer()) {
         correctAnswer.textContent = "Correct"
     } else {
@@ -112,6 +108,7 @@ function showAnswer() {
 function checkAnswer() {
     var flag = false
     console.log("Current question correct answer: " + quiz[currentQuestion]["correct"])
+    console.log(window.localStorage.getItem("answer"))
     if (quiz[currentQuestion]["correct"] === window.localStorage.getItem("answer")) {
         flag = true;
     }
@@ -123,14 +120,17 @@ function checkAnswer() {
 function displayQuestions(value) {
     clearBox("firstRow");
     var clicked = false;
-    console.log("the value of the clicked button:" + value)
-    window.localStorage.setItem('answer', value);
-    var previousQuestionAnswer = checkAnswer();
+   
     var question = document.createElement('p');
     question.id = "question";
     question.textContent = quiz[currentQuestion]["question"];
 
-    document.getElementById("firstRow").appendChild(question);
+    
+    clicked = true;
+    if (clicked) {
+        document.getElementById("firstRow").appendChild(question);
+        console.log("the value of the clicked button:" + value)
+        window.localStorage.setItem('answer', value);
     //loop through choices, and create buttons for the answers
     for (var i = 0; i < quiz[currentQuestion]["choices"].length; i++) {
 
@@ -146,12 +146,13 @@ function displayQuestions(value) {
 
         var btn = document.getElementById(answer.id);
     }
-    clicked = true;
-    if (clicked) {
-        currentQuestion++;
         if (window.localStorage.getItem("answer")!=='startQuiz'){
+
             showAnswer();
+            
+            clicked = false;
         }
+        currentQuestion++;
     }
     clicked = false;
 }
