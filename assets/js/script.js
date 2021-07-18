@@ -2,7 +2,7 @@ var startQuizBtn = document.getElementById("startQuizBtn");
 var timerEl = document.getElementById('countdown');
 var template = document.createElement('div');
 var currentQuestion = 0;
-var timeLeft = 75;
+var timeLeft = 15;
 var timeInterval;
 
 // The array of questions for our quiz game.
@@ -64,17 +64,20 @@ function countdown() {
     // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
     timeInterval = setInterval(function () {
         // As long as the `timeLeft` is greater than 1
-        if (timeLeft > 0) {
+        if (timeLeft >= 0) {
             // Set the `textContent` of `timerEl` to show the remaining seconds
             timerEl.textContent = "Time: " + timeLeft;
             // Decrement `timeLeft` by 1
             timeLeft--;
-            if(timeLeft<0){
+            if(timeLeft<0 || (currentQuestion>quiz.length)){
+            clearInterval(timeInterval);
                 gameOver();
+                return;
             }
-        } else {
+        } 
+        else {
             // Once `timeLeft` gets to 0, set `timerEl` to an empty string
-            timerEl.textContent = '';
+            clearInterval(timeInterval);
              gameOver();
         }
     }, 1000);
@@ -131,6 +134,7 @@ function displayQuestions(value) {
         // clearInterval(timeInterval);
         checkAnswer();
         setTimeout(gameOver,1000);
+        return;
     } else {
         var question = document.createElement('p');
         question.id = "question";
@@ -167,14 +171,10 @@ function gameOver() {
     var p = document.createElement('p');
     clearInterval(timeInterval);
     console.log(document.getElementById("countdown").innerText)
-    if (document.getElementById("countdown").innerText !== "") {
 
         // clearInterval(timeInterval);
         p.innerText = "Your final score is " + document.getElementById("countdown").innerText.split(" ")[1] + ".";
-    } else {
-        // clearInterval(timeInterval);
-        p.innerText = "Your final score is 0.";
-    }
+    
     
     var label = document.createElement('label');
     label.innerText = "Enter Initials";
