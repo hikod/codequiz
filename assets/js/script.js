@@ -2,6 +2,8 @@ var startQuizBtn = document.getElementById("startQuizBtn");
 var timerEl = document.getElementById('countdown');
 var template = document.createElement('div');
 var currentQuestion = 0;
+var timeLeft =75;
+var timeInterval;
 
 // The array of questions for our quiz game.
 var quiz = [
@@ -59,10 +61,8 @@ var quiz = [
 
 // Timer that counts down from 75
 function countdown() {
-    var timeLeft = 75;
-
     // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
-    var timeInterval = setInterval(function () {
+    timeInterval = setInterval(function () {
         // As long as the `timeLeft` is greater than 1
         if (timeLeft > 0) {
             // Set the `textContent` of `timerEl` to show the remaining seconds
@@ -101,6 +101,11 @@ function showAnswer() {
         correctAnswer.textContent = "Correct"
     } else {
         correctAnswer.textContent = "Wrong";
+        clearInterval(timeInterval);
+        timeLeft = document.getElementById("countdown").innerText.split(" ")[1]-10;
+        console.log("Time left: "+ timeLeft)
+        countdown();
+        
     }
     document.getElementById("firstRow").append(correctAnswer);
 }
@@ -142,9 +147,8 @@ function displayQuestions(value) {
         var btn = document.getElementById(answer.id);
     }
     if (window.localStorage.getItem("answer") !== 'startQuiz') {
-
         showAnswer();
-
     }
     currentQuestion++;
 }
+ 
