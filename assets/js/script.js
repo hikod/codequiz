@@ -2,7 +2,7 @@ var startQuizBtn = document.getElementById("startQuizBtn");
 var timerEl = document.getElementById('countdown');
 var template = document.createElement('div');
 var currentQuestion = 0;
-var timeLeft =15;
+var timeLeft = 75;
 var timeInterval;
 
 // The array of questions for our quiz game.
@@ -69,12 +69,13 @@ function countdown() {
             timerEl.textContent = "Time: " + timeLeft;
             // Decrement `timeLeft` by 1
             timeLeft--;
+            if(timeLeft<0){
+                gameOver();
+            }
         } else {
             // Once `timeLeft` gets to 0, set `timerEl` to an empty string
             timerEl.textContent = '';
-            // Use `clearInterval()` to stop the timer
-            clearInterval(timeInterval);
-            gameOver();
+             gameOver();
         }
     }, 1000);
 }
@@ -103,9 +104,9 @@ function showAnswer() {
     } else {
         correctAnswer.textContent = "Wrong";
         clearInterval(timeInterval);
-        timeLeft = document.getElementById("countdown").innerText.split(" ")[1]-10;
+        timeLeft = document.getElementById("countdown").innerText.split(" ")[1] - 10;
         countdown();
-        
+
     }
     document.getElementById("firstRow").append(correctAnswer);
 }
@@ -123,45 +124,58 @@ function checkAnswer() {
 function displayQuestions(value) {
     clearBox("firstRow");
     console.log(currentQuestion)
-    if(currentQuestion === quiz.length){
+    if (currentQuestion === quiz.length) {
+        console.log(quiz[currentQuestion - 1]["correct"])
+        console.log(window.localStorage.getItem("answer"))
+        // clearInterval(timeInterval);
         gameOver();
-    } else{
-    var question = document.createElement('p');
-    question.id = "question";
-    question.textContent = quiz[currentQuestion]["question"];
-    document.getElementById("firstRow").appendChild(question);
-    window.localStorage.setItem('answer', value);
-    //loop through choices, and create buttons for the answers
-    for (var i = 0; i < quiz[currentQuestion]["choices"].length; i++) {
+    } else {
+        var question = document.createElement('p');
+        question.id = "question";
+        question.textContent = quiz[currentQuestion]["question"];
+        document.getElementById("firstRow").appendChild(question);
+        window.localStorage.setItem('answer', value);
+        //loop through choices, and create buttons for the answers
+        for (var i = 0; i < quiz[currentQuestion]["choices"].length; i++) {
 
-        var answer = document.createElement('button');
-        answer.className = 'block';
-        answer.type = 'button';
-        answer.name = 'quiz';
-        answer.id = 'choice' + (i + 1);
-        answer.value = quiz[currentQuestion]["choices"][i];
-        answer.textContent = quiz[currentQuestion]["choices"][i];
-        answer.setAttribute('onclick', 'displayQuestions(this.value)');
-        document.getElementById("firstRow").appendChild(answer);
+            var answer = document.createElement('button');
+            answer.className = 'block';
+            answer.type = 'button';
+            answer.name = 'quiz';
+            answer.id = 'choice' + (i + 1);
+            answer.value = quiz[currentQuestion]["choices"][i];
+            answer.textContent = quiz[currentQuestion]["choices"][i];
+            answer.setAttribute('onclick', 'displayQuestions(this.value)');
+            document.getElementById("firstRow").appendChild(answer);
 
-        var btn = document.getElementById(answer.id);
+            var btn = document.getElementById(answer.id);
+        }
+        if (window.localStorage.getItem("answer") !== 'startQuiz') {
+            showAnswer();
+        }
+        currentQuestion++;
     }
-    if (window.localStorage.getItem("answer") !== 'startQuiz') {
-        showAnswer();
-    }
-    currentQuestion++;
 }
-}
-function gameOver(){
+function gameOver() {
+    // clearInterval(timeInterval);
     clearBox("firstRow");
     var h2 = document.createElement('h2');
-    h2.innerText= "All done!";
+    h2.innerText = "All done!";
 
     var p = document.createElement('p');
-    p.innerText= "Your final score is " + document.getElementById("countdown").innerText.split(" ")[1] + ".";
+    clearInterval(timeInterval);
+    console.log(document.getElementById("countdown").innerText)
+    if (document.getElementById("countdown").innerText !== "") {
+
+        // clearInterval(timeInterval);
+        p.innerText = "Your final score is " + document.getElementById("countdown").innerText.split(" ")[1] + ".";
+    } else {
+        // clearInterval(timeInterval);
+        p.innerText = "Your final score is 0.";
+    }
     
     var label = document.createElement('label');
-    label.innerText= "Enter Initials";
+    label.innerText = "Enter Initials";
     label.for = "initials"
     var inputText = document.createElement('input')
     inputText.type = "text";
@@ -169,14 +183,21 @@ function gameOver(){
     var inputButton = document.createElement('input')
     inputButton.type = "button";
     inputButton.value = "Submit";
+    //inputButton.setAttribute('onclick','submit(inputText.innerText)');
 
     document.getElementById("firstRow").appendChild(h2);
     document.getElementById("firstRow").appendChild(p);
     document.getElementById("firstRow").appendChild(label);
     document.getElementById("firstRow").appendChild(inputText);
     document.getElementById("firstRow").appendChild(inputButton);
-    if(document.getElementById("countdown").innerText.split(" ")[1]>0){
-    showAnswer();
+    if (document.getElementById("countdown").innerText.split(" ")[1] > 0) {
+        showAnswer();
     }
 }
- 
+function submit(initials) {
+    // clearBox("firstRow");
+    var h2 = document.createElement('h2');
+    h2.innerText = "High scores";
+    document.getElementById("firstRow").appendChild(h2);
+    console.log(initials)
+}
