@@ -109,7 +109,7 @@ function checkAnswer() {
     var flag = false
     console.log("Current question correct answer: " + quiz[currentQuestion]["correct"])
     console.log(window.localStorage.getItem("answer"))
-    if (quiz[currentQuestion]["correct"] === window.localStorage.getItem("answer")) {
+    if (quiz[currentQuestion-1]["correct"] === window.localStorage.getItem("answer")) {
         flag = true;
     }
     return flag;
@@ -150,7 +150,6 @@ function displayQuestions(value) {
 
             showAnswer();
             
-            clicked = false;
         }
         currentQuestion++;
     }
