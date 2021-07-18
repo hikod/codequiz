@@ -103,10 +103,6 @@ function showAnswer() {
         correctAnswer.textContent = "Correct"
     } else {
         correctAnswer.textContent = "Wrong";
-        clearInterval(timeInterval);
-        timeLeft = document.getElementById("countdown").innerText.split(" ")[1] - 10;
-        countdown();
-
     }
     document.getElementById("firstRow").append(correctAnswer);
 }
@@ -115,7 +111,12 @@ function checkAnswer() {
     var flag = false
     if (quiz[currentQuestion - 1]["correct"] === window.localStorage.getItem("answer")) {
         flag = true;
+    } else{
+        clearInterval(timeInterval);
+        timeLeft = document.getElementById("countdown").innerText.split(" ")[1] - 10;
+        countdown();
     }
+    
     return flag;
 }
 
@@ -128,7 +129,8 @@ function displayQuestions(value) {
         console.log(quiz[currentQuestion - 1]["correct"])
         console.log(window.localStorage.getItem("answer"))
         // clearInterval(timeInterval);
-        gameOver();
+        checkAnswer();
+        setTimeout(gameOver,1000);
     } else {
         var question = document.createElement('p');
         question.id = "question";
