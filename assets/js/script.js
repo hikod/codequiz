@@ -2,7 +2,7 @@ var startQuizBtn = document.getElementById("startQuizBtn");
 var timerEl = document.getElementById('countdown');
 var template = document.createElement('div');
 var currentQuestion = 0;
-var timeLeft = 5;
+var timeLeft = 75;
 var timeInterval;
 
 // The array of questions for our quiz game.
