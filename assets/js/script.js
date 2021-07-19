@@ -2,7 +2,7 @@ var startQuizBtn = document.getElementById("startQuizBtn");
 var timerEl = document.getElementById('countdown');
 var template = document.createElement('div');
 var currentQuestion = 0;
-var timeLeft = 15;
+var timeLeft = 75;
 var timeInterval;
 
 // The array of questions for our quiz game.
@@ -64,22 +64,26 @@ function countdown() {
     // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
     timeInterval = setInterval(function () {
         // As long as the `timeLeft` is greater than 1
-        if (timeLeft >= 0) {
+        if (timeLeft > 0) {
             // Set the `textContent` of `timerEl` to show the remaining seconds
             timerEl.textContent = "Time: " + timeLeft;
             // Decrement `timeLeft` by 1
             timeLeft--;
-            if(timeLeft<0 || (currentQuestion>quiz.length)){
-            clearInterval(timeInterval);
-                gameOver();
-                return;
-            }
-        } 
-        else {
-            // Once `timeLeft` gets to 0, set `timerEl` to an empty string
-            clearInterval(timeInterval);
-             gameOver();
+        } else if (timeLeft==0){
+            timerEl.textContent = "Time: " + timeLeft;
+            // Decrement `timeLeft` by 1
+            timeLeft--;
         }
+        if (timeLeft < 0 || (currentQuestion > quiz.length)) {
+            timerEl.textContent = "Time: " + 0;
+            clearInterval(timeInterval);
+            gameOver();
+        }
+        // else {
+        //     // Once `timeLeft` gets to 0, set `timerEl` to an empty string
+        //     clearInterval(timeInterval);
+        //     gameOver();
+        // }
     }, 1000);
 }
 
@@ -107,6 +111,7 @@ function showAnswer() {
     } else {
         correctAnswer.textContent = "Wrong";
     }
+    if(timeInterval !==0)
     document.getElementById("firstRow").append(correctAnswer);
 }
 
@@ -114,12 +119,12 @@ function checkAnswer() {
     var flag = false
     if (quiz[currentQuestion - 1]["correct"] === window.localStorage.getItem("answer")) {
         flag = true;
-    } else{
+    } else {
         clearInterval(timeInterval);
         timeLeft = document.getElementById("countdown").innerText.split(" ")[1] - 10;
         countdown();
     }
-    
+
     return flag;
 }
 
@@ -129,11 +134,12 @@ function displayQuestions(value) {
     clearBox("firstRow");
     console.log(currentQuestion)
     if (currentQuestion === quiz.length) {
+        window.localStorage.setItem('answer', value);
         console.log(quiz[currentQuestion - 1]["correct"])
         console.log(window.localStorage.getItem("answer"))
-        // clearInterval(timeInterval);
+        
         checkAnswer();
-        setTimeout(gameOver,1000);
+        setTimeout(gameOver, 1000);
         return;
     } else {
         var question = document.createElement('p');
@@ -153,8 +159,6 @@ function displayQuestions(value) {
             answer.textContent = quiz[currentQuestion]["choices"][i];
             answer.setAttribute('onclick', 'displayQuestions(this.value)');
             document.getElementById("firstRow").appendChild(answer);
-
-            var btn = document.getElementById(answer.id);
         }
         if (window.localStorage.getItem("answer") !== 'startQuiz') {
             showAnswer();
@@ -163,19 +167,17 @@ function displayQuestions(value) {
     }
 }
 function gameOver() {
-    // clearInterval(timeInterval);
+    
     clearBox("firstRow");
     var h2 = document.createElement('h2');
     h2.innerText = "All done!";
 
     var p = document.createElement('p');
     clearInterval(timeInterval);
-    console.log(document.getElementById("countdown").innerText)
+    console.log(document.getElementById("countdown").innerText);
+    p.innerText = "Your final score is " + document.getElementById("countdown").innerText.split(" ")[1] + ".";
 
-        // clearInterval(timeInterval);
-        p.innerText = "Your final score is " + document.getElementById("countdown").innerText.split(" ")[1] + ".";
-    
-    
+
     var label = document.createElement('label');
     label.innerText = "Enter Initials";
     label.for = "initials"
@@ -192,9 +194,10 @@ function gameOver() {
     document.getElementById("firstRow").appendChild(label);
     document.getElementById("firstRow").appendChild(inputText);
     document.getElementById("firstRow").appendChild(inputButton);
-    if (document.getElementById("countdown").innerText.split(" ")[1] > 0) {
+    if (document.getElementById("countdown").innerText.split(" ")[1] >= 0) {
         showAnswer();
     }
+    clearInterval(timeInterval);
 }
 function submit(initials) {
     // clearBox("firstRow");
