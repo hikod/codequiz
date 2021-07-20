@@ -214,6 +214,7 @@ function submit() {
     var goBackBtn = document.createElement('input')
     goBackBtn.type = "button";
     goBackBtn.value = "Go back";
+    goBackBtn.setAttribute("onclick","window.location.reload();")
 
     var clearHighScoreBtn = document.createElement('input')
     clearHighScoreBtn.type = "button";
@@ -222,6 +223,6 @@ function submit() {
     document.getElementById("firstRow").appendChild(h2);
     document.getElementById("firstRow").appendChild(inputText);
     document.getElementById("firstRow").appendChild(goBackBtn);
-        document.getElementById("firstRow").appendChild(clearHighScoreBtn);
+    document.getElementById("firstRow").appendChild(clearHighScoreBtn);
     console.log(window.localStorage.getItem("initials"))
 }
