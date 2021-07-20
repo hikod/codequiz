@@ -183,11 +183,12 @@ function gameOver() {
     label.for = "initials"
     var inputText = document.createElement('input')
     inputText.type = "text";
-    inputText.name = "initials"
+    inputText.name = "initials";
+    inputText.id = "initials";
     var inputButton = document.createElement('input')
     inputButton.type = "button";
     inputButton.value = "Submit";
-    //inputButton.setAttribute('onclick','submit(inputText.innerText)');
+    inputButton.setAttribute('onclick','submit()');
 
     document.getElementById("firstRow").appendChild(h2);
     document.getElementById("firstRow").appendChild(p);
@@ -199,10 +200,29 @@ function gameOver() {
     }
     clearInterval(timeInterval);
 }
-function submit(initials) {
-    // clearBox("firstRow");
+function submit() {
+    window.localStorage.setItem("initials",document.getElementById("initials").innerText)
+    clearBox("firstRow");
     var h2 = document.createElement('h2');
     h2.innerText = "High scores";
+
+    var inputText = document.createElement('input')
+    inputText.type = "text";
+    inputText.name = "initials";
+    inputText.id = "initials";
+
+    var goBackBtn = document.createElement('input')
+    goBackBtn.type = "button";
+    goBackBtn.value = "Go back";
+    goBackBtn.setAttribute("onclick","window.location.reload();")
+
+    var clearHighScoreBtn = document.createElement('input')
+    clearHighScoreBtn.type = "button";
+    clearHighScoreBtn.value = "Clear high scores";
+
     document.getElementById("firstRow").appendChild(h2);
-    console.log(initials)
+    document.getElementById("firstRow").appendChild(inputText);
+    document.getElementById("firstRow").appendChild(goBackBtn);
+    document.getElementById("firstRow").appendChild(clearHighScoreBtn);
+    console.log(window.localStorage.getItem("initials"))
 }
