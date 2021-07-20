@@ -9,7 +9,7 @@
     height: auto;
   }
 
-  .block:hover{
+  .block:hover,#clearBtn:hover,#submit:hover,#goBack:hover{
     background-color:blueviolet; 
   }
   #highScore{
@@ -20,4 +20,19 @@
   }
   #firstRow{
   }
+  #clearBtn,#submit,#goBack{
+    background-color:rgb(34, 0, 128);
+    color: white;
+  }
+#initials{
+  width: 300px;
+  margin: 0.5em;
+}
+#wrapper{
+  display: flex;
+  justify-content: center;
+}
+#wrapper > input{
+  margin: 10px;
+}
 
