@@ -185,6 +185,8 @@ function gameOver() {
     var inputButton = document.createElement('input')
     inputButton.type = "button";
     inputButton.value = "Submit";
+    inputButton.id = "submit";
+    inputButton.className = "btn";
     inputButton.setAttribute('onclick', 'submit()');
 
     document.getElementById("firstRow").appendChild(h2);
@@ -216,12 +218,15 @@ function submit() {
     var goBackBtn = document.createElement('input')
     goBackBtn.type = "button";
     goBackBtn.value = "Go back";
+    goBackBtn.id = "goBack";
+    goBackBtn.className = "btn";
     goBackBtn.setAttribute("onclick", "window.location.reload();")
 
     var clearHighScoreBtn = document.createElement('input')
     clearHighScoreBtn.type = "button";
     clearHighScoreBtn.value = "Clear high scores";
     clearHighScoreBtn.id = "clearBtn";
+    clearHighScoreBtn.className = "btn";
 
     document.getElementById("firstRow").appendChild(h2);
     document.getElementById("firstRow").appendChild(inputText);
