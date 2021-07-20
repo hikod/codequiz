@@ -176,10 +176,12 @@ function gameOver() {
     var label = document.createElement('label');
     label.innerText = "Enter Initials";
     label.for = "initials"
+    
     var inputText = document.createElement('input')
     inputText.type = "text";
     inputText.name = "initials";
     inputText.id = "initials";
+    
     var inputButton = document.createElement('input')
     inputButton.type = "button";
     inputButton.value = "Submit";
@@ -196,7 +198,8 @@ function gameOver() {
     clearInterval(timeInterval);
 }
 function submit() {
-    window.localStorage.setItem("initials", document.getElementById("initials").innerText)
+    window.localStorage.setItem("initials", document.getElementById("initials").value);
+    window.localStorage.setItem("score",document.getElementById("countdown").innerText.split(" ")[1])
     clearBox("firstRow");
     var h2 = document.createElement('h2');
     h2.innerText = "High scores";
@@ -205,6 +208,10 @@ function submit() {
     inputText.type = "text";
     inputText.name = "initials";
     inputText.id = "initials";
+    inputText.value = "1."+window.localStorage.getItem("initials")+"-"+window.localStorage.getItem("score");
+
+    var div = document.createElement("div");
+    div.id = "wrapper";
 
     var goBackBtn = document.createElement('input')
     goBackBtn.type = "button";
@@ -214,10 +221,17 @@ function submit() {
     var clearHighScoreBtn = document.createElement('input')
     clearHighScoreBtn.type = "button";
     clearHighScoreBtn.value = "Clear high scores";
+    clearHighScoreBtn.id = "clearBtn";
 
     document.getElementById("firstRow").appendChild(h2);
     document.getElementById("firstRow").appendChild(inputText);
-    document.getElementById("firstRow").appendChild(goBackBtn);
-    document.getElementById("firstRow").appendChild(clearHighScoreBtn);
-    console.log(window.localStorage.getItem("initials"))
+    document.getElementById("firstRow").appendChild(div);
+    document.getElementById("wrapper").appendChild(goBackBtn);
+    document.getElementById("wrapper").appendChild(clearHighScoreBtn);
+
+    document.getElementById("clearBtn").addEventListener("click", ()=> {
+        document.getElementById("initials").value="";
+    })
 }
+
+
