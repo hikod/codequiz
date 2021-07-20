@@ -233,6 +233,8 @@ function submit() {
     document.getElementById("firstRow").appendChild(div);
     document.getElementById("wrapper").appendChild(goBackBtn);
     document.getElementById("wrapper").appendChild(clearHighScoreBtn);
+    document.getElementById("countdown").innerText="";
+    document.getElementById("highScore").innerText="";
 
     document.getElementById("clearBtn").addEventListener("click", ()=> {
         document.getElementById("initials").value="";
