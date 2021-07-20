@@ -69,7 +69,7 @@ function countdown() {
             timerEl.textContent = "Time: " + timeLeft;
             // Decrement `timeLeft` by 1
             timeLeft--;
-        } else if (timeLeft==0){
+        } else if (timeLeft == 0) {
             timerEl.textContent = "Time: " + timeLeft;
             // Decrement `timeLeft` by 1
             timeLeft--;
@@ -79,11 +79,6 @@ function countdown() {
             clearInterval(timeInterval);
             gameOver();
         }
-        // else {
-        //     // Once `timeLeft` gets to 0, set `timerEl` to an empty string
-        //     clearInterval(timeInterval);
-        //     gameOver();
-        // }
     }, 1000);
 }
 
@@ -111,8 +106,8 @@ function showAnswer() {
     } else {
         correctAnswer.textContent = "Wrong";
     }
-    if(timeInterval !==0)
-    document.getElementById("firstRow").append(correctAnswer);
+    if (timeInterval !== 0)
+        document.getElementById("firstRow").append(correctAnswer);
 }
 
 function checkAnswer() {
@@ -137,7 +132,7 @@ function displayQuestions(value) {
         window.localStorage.setItem('answer', value);
         console.log(quiz[currentQuestion - 1]["correct"])
         console.log(window.localStorage.getItem("answer"))
-        
+
         checkAnswer();
         setTimeout(gameOver, 1000);
         return;
@@ -167,7 +162,7 @@ function displayQuestions(value) {
     }
 }
 function gameOver() {
-    
+
     clearBox("firstRow");
     var h2 = document.createElement('h2');
     h2.innerText = "All done!";
@@ -188,7 +183,7 @@ function gameOver() {
     var inputButton = document.createElement('input')
     inputButton.type = "button";
     inputButton.value = "Submit";
-    inputButton.setAttribute('onclick','submit()');
+    inputButton.setAttribute('onclick', 'submit()');
 
     document.getElementById("firstRow").appendChild(h2);
     document.getElementById("firstRow").appendChild(p);
@@ -201,7 +196,7 @@ function gameOver() {
     clearInterval(timeInterval);
 }
 function submit() {
-    window.localStorage.setItem("initials",document.getElementById("initials").innerText)
+    window.localStorage.setItem("initials", document.getElementById("initials").innerText)
     clearBox("firstRow");
     var h2 = document.createElement('h2');
     h2.innerText = "High scores";
@@ -214,7 +209,7 @@ function submit() {
     var goBackBtn = document.createElement('input')
     goBackBtn.type = "button";
     goBackBtn.value = "Go back";
-    goBackBtn.setAttribute("onclick","window.location.reload();")
+    goBackBtn.setAttribute("onclick", "window.location.reload();")
 
     var clearHighScoreBtn = document.createElement('input')
     clearHighScoreBtn.type = "button";
